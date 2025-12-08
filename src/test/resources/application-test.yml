@@ -1,0 +1,10 @@
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+github:
+  retry:
+    maxRetries: 2
+    delay: 10
+    multiplier: 1.05
+    maxDelay: 15

@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: Redcare coding challenge
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+weight:
+  fork: 1
+  star: 1.5
+  update-date: 1
+
+github:
+  api:
+    base-url: https://api.github.com/search/repositories
+  retry:
+    maxRetries: 2
+    delay: 60000
+    multiplier: 1.05
+    maxDelay: 65000
+
