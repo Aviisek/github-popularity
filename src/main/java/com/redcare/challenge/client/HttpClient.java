@@ -1,5 +1,6 @@
 package com.redcare.challenge.client;
 
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,8 @@ public class HttpClient {
     }
 
     private ClientHttpRequestFactory configureClientHttpRequestFactory() {
-        HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create().useSystemProperties().disableAutomaticRetries();
+        HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(httpClientBuilder.build());
         httpComponentsClientHttpRequestFactory.setConnectionRequestTimeout(Duration.ofMillis(60000));
         httpComponentsClientHttpRequestFactory.setReadTimeout(Duration.ofMillis(60000));
 

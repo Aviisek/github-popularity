@@ -140,27 +140,6 @@ public class GithubRepositoryResourceIntegrationTest {
                 .addHeader("Content-Type", "application/json")
                 .build());
 
-        server.enqueue(new MockResponse.Builder().code(429).body("""
-                {
-                  "total_count": 0,
-                  "incomplete_results": false,
-                  "items": [
-                
-                  ]
-                }""")
-                .addHeader("Content-Type", "application/json")
-                .build());
-        server.enqueue(new MockResponse.Builder().code(429).body("""
-                {
-                  "total_count": 0,
-                  "incomplete_results": false,
-                  "items": [
-                
-                  ]
-                }""")
-                .addHeader("Content-Type", "application/json")
-                .build());
-
         server.enqueue(new MockResponse.Builder().code(200).body("""
                 {
                   "total_count": 1,
@@ -247,39 +226,36 @@ public class GithubRepositoryResourceIntegrationTest {
                 .addHeader("Content-Type", "application/json")
                 .addHeader("retry-after", "3")
                 .build());
-        server.enqueue(new MockResponse.Builder().code(429).body("""
-                {
-                  "total_count": 0,
-                  "incomplete_results": false,
-                  "items": [
-                
-                  ]
-                }""")
-                .addHeader("Content-Type", "application/json")
-                .addHeader("retry-after", "2")
-                .build());
 
-        server.enqueue(new MockResponse.Builder().code(429).body("""
+        server.enqueue(new MockResponse.Builder().code(200).body("""
                 {
-                  "total_count": 0,
+                  "total_count": 1,
                   "incomplete_results": false,
-                  "items": [
+                  "items": [{
+                              "id": 93558276,
+                              "node_id": "MDEwOlJlcG9zaXRvcnk5MzU1ODI3Ng==",
+                              "name": "awesome-design-systems",
+                              "full_name": "alexpate/awesome-design-systems",
+                              "html_url": "https://github.com/alexpate/awesome-design-systems",
+                              "description": "💅🏻 ⚒ A collection of awesome design systems",
+                              "fork": false,
+                              "created_at": "2017-06-06T19:56:49Z",
+                              "updated_at": "2025-12-06T21:03:03Z",
+                              "pushed_at": "2025-07-21T12:10:32Z",
+                              "git_url": "git://github.com/alexpate/awesome-design-systems.git",
+                              "homepage": "https://git.io/design-systems",
+                              "size": 454,
+                              "stargazers_count": 18614,
+                              "watchers_count": 18614,
+                              "language": "java",
+                              "forks_count": 1138,
+                              "forks": 1138,
+                              "watchers": 18614
+                          }
                 
                   ]
                 }""")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("retry-after", "1")
-                .build());
-        server.enqueue(new MockResponse.Builder().code(429).body("""
-                {
-                  "total_count": 0,
-                  "incomplete_results": false,
-                  "items": [
-                
-                  ]
-                }""")
-                .addHeader("Content-Type", "application/json")
-                .addHeader("retry-after", "1")
                 .build());
 
         ExchangeResult exchangeResult = restTestClient.get().uri(uriBuilder ->
