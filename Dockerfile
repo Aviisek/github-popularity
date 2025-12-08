@@ -7,6 +7,7 @@ USER builder
 
 COPY --chown=builder:builder . $BUILDER_HOME
 WORKDIR $BUILDER_HOME
+RUN chmod +x gradlew
 RUN ./gradlew clean build
 
 FROM eclipse-temurin:25-jre-alpine
