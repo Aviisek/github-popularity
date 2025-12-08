@@ -39,7 +39,7 @@ public class GitHubRepoWithScoreMapperTest {
         );
 
         GitHubRepoWithScoreMapper mapper = new GitHubRepoWithScoreMapper();
-        GithubRepoWithScore mappedGithubRepoWithScore = mapper.mapToGithubRepoWithScore(githubVersionControlRepo, 20.0);
+        GithubRepoWithScore mappedGithubRepoWithScore = mapper.mapToGithubRepoWithScore(githubVersionControlRepo, (repo) -> 20.0);
 
         assertEquals(githubRepoWithScore, mappedGithubRepoWithScore);
 

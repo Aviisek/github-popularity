@@ -9,9 +9,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.function.Function;
 
 @Service
-public class ScoringPopularityService {
+public class ScoringPopularityService implements Function<VersionControl, Double> {
 
     @Value("${weight.fork:1}")
     private double forkWeight;
@@ -29,8 +30,8 @@ public class ScoringPopularityService {
     }
 
 
-    public double calculateScore(VersionControl versionControl) {
-
+    @Override
+    public Double apply(VersionControl versionControl) {
         LocalDateTime createdAt = Instant.parse(versionControl.updatedAt())
                 .atZone(ZoneOffset.UTC)
                 .toLocalDateTime();
@@ -42,8 +43,5 @@ public class ScoringPopularityService {
         double weightedUpdateVal =  updateWeight /(1+daysSinceUpdate);
 
         return weightedStar + weightedFork + weightedUpdateVal;
-
     }
-
-
 }

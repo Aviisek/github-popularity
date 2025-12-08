@@ -23,7 +23,7 @@ public class ScoringPopularityServiceTest {
         ReflectionTestUtils.setField(popularityService, "starWeight", 1.5d);
         ReflectionTestUtils.setField(popularityService, "updateWeight", 1d);
 
-        double popularityScore = popularityService.calculateScore(new VersionControl(
+        double popularityScore = popularityService.apply(new VersionControl(
                 "hello-algo",
                 "krahets/hello-algo",
                 "javascript",

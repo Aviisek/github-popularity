@@ -80,8 +80,8 @@ public class GithubRepoServiceTest {
         when(githubRepositoryExchange.fetchGithubRepositories(any(), eq(2L), eq(1L)))
                 .thenReturn(ResponseEntity.ok(new GithubVersionControlList(2,List.of(gitRepo1, gitRepo2))));
 
-        when(scoringPopularityService.calculateScore(gitRepo1)).thenReturn(10.0);
-        when(scoringPopularityService.calculateScore(gitRepo2)).thenReturn(20.0);
+        when(scoringPopularityService.apply(gitRepo1)).thenReturn(10.0);
+        when(scoringPopularityService.apply(gitRepo2)).thenReturn(20.0);
     }
 
 
@@ -95,8 +95,8 @@ public class GithubRepoServiceTest {
 
 
         assertThat(List.of(
-                gitHubRepoWithScoreMapper.mapToGithubRepoWithScore(gitRepo1, scoringPopularityService.calculateScore(gitRepo1)),
-                gitHubRepoWithScoreMapper.mapToGithubRepoWithScore(gitRepo2, scoringPopularityService.calculateScore(gitRepo2))))
+                gitHubRepoWithScoreMapper.mapToGithubRepoWithScore(gitRepo1, scoringPopularityService),
+                gitHubRepoWithScoreMapper.mapToGithubRepoWithScore(gitRepo2, scoringPopularityService)))
                 .containsExactlyInAnyOrderElementsOf(githubRepoWithScoreList.items());
     }
 

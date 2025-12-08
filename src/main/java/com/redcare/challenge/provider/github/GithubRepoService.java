@@ -67,7 +67,7 @@ public class GithubRepoService {
                 .map(githubRepo ->
                         gitHubRepoWithScoreMapper.mapToGithubRepoWithScore(
                                 githubRepo,
-                                scoringPopularityService.calculateScore(githubRepo)
+                                scoringPopularityService
                         )
                 ).toList();
 

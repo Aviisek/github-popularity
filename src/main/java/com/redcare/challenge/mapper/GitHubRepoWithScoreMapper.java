@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.function.Function;
 
 @Service
 public class GitHubRepoWithScoreMapper {
 
     public GithubRepoWithScore mapToGithubRepoWithScore(VersionControl githubRepo,
-                                                        Double popularityScore){
+                                                        Function<VersionControl, Double> popularityFn){
         return new GithubRepoWithScore(
                 githubRepo.name(),
                 githubRepo.fullName(),
@@ -22,10 +23,11 @@ public class GitHubRepoWithScoreMapper {
                 parseDate(githubRepo.updatedAt()),
                 githubRepo.forksCount(),
                 githubRepo.stargazersCount(),
-                popularityScore
+                popularityFn.apply(githubRepo)
         );
 
     }
+
 
     private LocalDateTime parseDate(String date){
         return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssX"));
