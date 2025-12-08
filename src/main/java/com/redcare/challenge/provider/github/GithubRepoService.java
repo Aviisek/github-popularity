@@ -94,7 +94,7 @@ public class GithubRepoService {
             String retryAfter = retry != null && !retry.isEmpty() ? retry.getFirst() : null;
 
             if(retryAfter != null){
-                message = "Please retry after "+ retry.getFirst() +" seconds";
+                message = "Please retry after "+ retryAfter +" seconds";
             }
         }
 

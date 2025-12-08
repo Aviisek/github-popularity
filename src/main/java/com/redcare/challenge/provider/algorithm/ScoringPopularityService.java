@@ -32,11 +32,11 @@ public class ScoringPopularityService implements Function<VersionControl, Double
 
     @Override
     public Double apply(VersionControl versionControl) {
-        LocalDateTime createdAt = Instant.parse(versionControl.updatedAt())
+        LocalDateTime updatedAt = Instant.parse(versionControl.updatedAt())
                 .atZone(ZoneOffset.UTC)
                 .toLocalDateTime();
 
-        long daysSinceUpdate = ChronoUnit.DAYS.between(createdAt, LocalDateTime.now(clock));
+        long daysSinceUpdate = ChronoUnit.DAYS.between(updatedAt, LocalDateTime.now(clock));
 
         double weightedStar = starWeight * versionControl.stargazersCount();
         double weightedFork = forkWeight * versionControl.forksCount();

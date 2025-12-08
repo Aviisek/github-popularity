@@ -29,10 +29,10 @@ public class GithubRepositoryResource {
     @GetMapping(value = "/search/repositories", produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<GithubRepoWithScoreList> getRepositoriesWithScore(
             @Parameter(description = "language of the code in the repositories", example = "Java")
-            @RequestParam(required = false) String language,
+            @RequestParam(required = true) String language,
 
             @Parameter(description = "time of earliest creation date", example = "2025-06-24")
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") @Valid LocalDate createdDate,
+            @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") @Valid LocalDate createdDate,
 
             @Parameter(description = "size of the repo list to fetch with max 100 allowed by github api")
             @RequestParam(required = false, defaultValue = "30") long perPage,
