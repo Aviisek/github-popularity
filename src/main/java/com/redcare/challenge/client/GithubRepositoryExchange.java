@@ -15,7 +15,7 @@ import static org.springframework.web.client.HttpClientErrorException.Forbidden;
 // it scale per user instead. ConcurrencyLimit is set to 50 just not to spam github api as they recommends
 // max 100 call concurrently.
 
-@HttpExchange(accept = "application/vnd.github+json", headers = {"X-GitHub-Api-Version=2022-11-28"})
+@HttpExchange(url = "/search/repositories", accept = "application/vnd.github+json", headers = {"X-GitHub-Api-Version=2022-11-28"})
 @ConcurrencyLimit(50)
 public interface GithubRepositoryExchange {
 
