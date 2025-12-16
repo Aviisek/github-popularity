@@ -5,6 +5,8 @@ import com.redcare.challenge.provider.github.GithubRepoService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,17 +31,16 @@ public class GithubRepositoryResource {
     @GetMapping(value = "/search/repositories", produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<GithubRepoWithScoreList> getRepositoriesWithScore(
             @Parameter(description = "language of the code in the repositories", example = "Java")
-            @RequestParam(required = true) String language,
+            @RequestParam(required = true) @NotEmpty String language,
 
             @Parameter(description = "time of earliest creation date", example = "2025-06-24")
-            @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") @Valid LocalDate createdDate,
+            @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate,
 
             @Parameter(description = "size of the repo list to fetch with max 100 allowed by github api")
-            @RequestParam(required = false, defaultValue = "30") long perPage,
+            @RequestParam(required = false, defaultValue = "30") @Valid @Max(value = 100, message = "max 100 per page allowed") long perPage,
 
             @Parameter(description="current page number")
-            @RequestParam(required = false, defaultValue = "1") long pageNumber
-            ){
+            @RequestParam(required = false, defaultValue = "1") long pageNumber){
 
         GithubRepoWithScoreList githubRepoWithScoreList = githubRepoService.getGithubRepoWithScoreList(language,
                 createdDate, perPage, pageNumber);

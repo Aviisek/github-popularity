@@ -42,5 +42,5 @@ tasks.bootJar {
 }
 
 tasks.test {
-    jvmArgs = listOf("-XX:UseSVE=0","-Xshare:off")
+    //jvmArgs = listOf("-XX:UseSVE=0","-Xshare:off")
 }
