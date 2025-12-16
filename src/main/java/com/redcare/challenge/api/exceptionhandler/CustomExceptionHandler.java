@@ -6,17 +6,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
-@ControllerAdvice
+//exception message could be improved with better parsing or our own message
+// but just to demonstrate exception handling I kept it simple.
+@RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -40,10 +42,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                                 .collect(Collectors.toList())));
     }
 
-    @ExceptionHandler(HttpClientErrorException.class)
+    @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<Object> handleHttpClientErrorException(
-            HttpClientErrorException ex
-    ){
+            ResponseStatusException ex){
         return ResponseEntity.status(ex.getStatusCode())
                 .body(new ApiError(ex.getStatusCode().value(),
                         List.of(ex.getMessage())));
@@ -51,8 +52,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleAllUncaughtException(
-            RuntimeException ex
-    ){
+            RuntimeException ex){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         List.of(ex.getMessage())));
